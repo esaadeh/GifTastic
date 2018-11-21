@@ -29,7 +29,7 @@ function displayCharacterInfo() {
             // Creating an element to hold the still image and add attributes so the click image animate / still toggle works
             var image = $("<img>").attr({ "src": stillImgURL, "data-state": "still", "data-animate": animImgUrl, "data-still": stillImgURL, "class": "gif" });
 
-            // Appending the image to the character dive created above
+            // Appending the image to the character div created above
             characterDiv.append(image);
 
             // Storing the rating data

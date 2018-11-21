@@ -7,3 +7,14 @@ form,
 input {
     margin: 10px;
 }
+
+button,
+input {
+    background-color: aquamarine;
+}
+
+
+#character-view {
+    float: left;
+    margin: 10px;
+}
