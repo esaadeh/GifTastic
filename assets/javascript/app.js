@@ -14,27 +14,22 @@ function displayCharacterInfo() {
         method: "GET"
     }).then(function (response) {
 
-        // console.log("queryURl: " + queryURL);
-        // console.log(response);
 
         // Creating a div to hold the gif
         var characterDiv = $("<div class='character'>");
 
-        // Looping through the object to response object to retrieve the 10 rating and gifs URLs
+        // Looping through the response object to retrieve the 10 ratings and gifs URLs
         for (var i = 0; i < 10; i++) {
 
-            // Retrieving the URL for the images
+            // Retrieving the URLs for the images
             var stillImgURL = response.data[i].images.original_still.url;
-            // console.log(stillImgURL);
 
             var animImgUrl = response.data[i].images.original.url;
-            // console.log(animImgUrl);
 
-            // Creating an element to hold the still image
-            var image = $("<img>").attr({ "src": stillImgURL, "data-state": "still", "data-animate": animImgUrl, "data-still": stillImgURL });
-            image.addClass("gif");
+            // Creating an element to hold the still image and add attributes so the click image animate / still toggle works
+            var image = $("<img>").attr({ "src": stillImgURL, "data-state": "still", "data-animate": animImgUrl, "data-still": stillImgURL, "class": "gif" });
 
-            // Appending the image
+            // Appending the image to the character dive created above
             characterDiv.append(image);
 
             // Storing the rating data
@@ -47,13 +42,28 @@ function displayCharacterInfo() {
             // Displaying the rating
             characterDiv.append(pOne);
 
-            // Putting the the new gifs submitted above the last ones
+            // Putting the the new gifs requested above the last ones
             $("#character-view").prepend(characterDiv);
         }
 
+        // On click function to toggle between a still and animated gif
 
+        $(".gif").on("click", function () {
+            var state = $(this).attr("data-state");
+            // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+            // Then, set the image's data-state to animate
+            // Else set src to the data-still value
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+        });
 
     });
+
 }
 
 // Function for displaying gif data
@@ -97,21 +107,3 @@ $(document).on("click", ".character-btn", displayCharacterInfo);
 
 // Calling the renderButtons function to display the intial buttons
 renderButtons();
-
-
-$(".gif").on("click", function () {
-    console.log("click");
-    alert("click");
-    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
-    var state = $(this).attr("data-state");
-    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-    // Then, set the image's data-state to animate
-    // Else set src to the data-still value
-    if (state === "still") {
-        $(this).attr("src", $(this).attr("data-animate"));
-        $(this).attr("data-state", "animate");
-    } else {
-        $(this).attr("src", $(this).attr("data-still"));
-        $(this).attr("data-state", "still");
-    }
-});
